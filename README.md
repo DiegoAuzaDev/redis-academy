@@ -25,6 +25,7 @@ Documentation link : https://redis.io/docs/data-types/strings/
 
 ```
 C#
+
 var setBikeString = db.StringSet("bike:1", "Deimos")
 Console.WriteLine(setBikeString) // true
 var consoleWriteBikeValue = db.StringGet("bike:1")
@@ -45,4 +46,19 @@ The **SEt** command has **options**. For example, I may ask SET to fail if the k
 
 There are number of commands for operating on String. For example if you wan to set new value to a key, returning the old value as the result you can use **GETSET**. this is useful if you want to keep track of new visitor on your website. 
 
-Also it is very useful to set or retrieve the value of multiple keys in a single commands. This will reduce latency. For this reason there are the **MSET** **MGET**
+Also it is very useful to set or retrieve the value of multiple keys in a single commands. This will reduce latency. For this reason there are the **MSET** **MGET** commands.
+
+#### String as counters 
+
+Now that we know String and that we know that String are the basic values of Redis, there are some other operation you can perform with the help of String such as atomic increment: 
+
+```
+C#
+
+db.StringSet("task_completed", 0)
+var incrementTaskList = db.StringIncrement("task_completed")
+Console.WriteLine(incrementTaskList) // 1
+var incrementNumbertask = db.StringIncrement("task_completed", 10);
+Console.WriteLine(incrementNumberTask) // 11
+
+```
