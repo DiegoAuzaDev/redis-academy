@@ -61,4 +61,63 @@ Console.WriteLine(incrementTaskList) // 1
 var incrementNumbertask = db.StringIncrement("task_completed", 10);
 Console.WriteLine(incrementNumberTask) // 11
 
+
 ```
+
+### Redis Lists 
+
+Redis list are linked list of string values. Redis lists are frequently used to: 
+
+- IMplement stacks and queues 
+- Build queue management for background worker systems.
+
+#### Bisc commands 
+
+- **LPUSH** addes a new elemtn to  the head of a list
+- **RPUSH** addes a new elemtn to the tail  of a list
+- **LPOP** removes and returns an element from the head of a list
+- **RPOP** removes and returns an element from the tail of a list
+- **LLEN** returns the lenght of a list
+- **LMOVE** atomically moves alements from one list to another
+- **LTRIM** reduces a list to the specified range of elements 
+
+- Treat a list like a queue (first in, first out);
+
+```
+Node.js
+
+const res1= await client.lPush("bikes:reapis", "bike:1");
+console.log(res1); // 1
+
+const res2 = await client.lPush("bikes:repairs", "bike:2")
+console.log(res2) // 2
+
+const res3 = await client.rPop("bikes:repais")
+console.log(res3) // bike:1
+
+const res4 = await client.rPop("bikes:repais");
+console.log(res4) // bike:2
+
+
+```
+
+- Treaat a list like a stack (first in, last out);
+
+```
+const res5 = await client.lPush("bikes:repairs", "bike:1")
+console.log(res5) // 1
+
+const res6 = await client.lPush("bikes:repairs", "bike:2")
+console.log(res6) // 2
+
+const res7 = await client.lPop("bikes:repairs")
+console.log(res7) // bike:2
+
+const res8 = await client.lPop("bikes:repairs")
+console.log(res8) // bike:1
+```
+
+
+
+
+
