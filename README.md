@@ -4,6 +4,16 @@
 
 Undestand Redis data types 
 
+### Redis Key names 
+
+Key names can be set in seconds, milliseconds and in Unix epoch time 
+
+- Unique key
+- BInary strings
+- Flat namespace
+- Can be up to 512MB
+- Presences/absences can be used to determine if a set occurs
+
 Core 
 
 - String 
@@ -118,6 +128,61 @@ console.log(res8) // bike:1
 ```
 
 
+### Sets & Sorted Sets
 
+Redis set is a unordered collection of unique strings. You can use Redis sets to efficiently :
 
+- Track unique items
+- Represetn relations 
+- Perform common set operation such as intersectio, unions and differences 
 
+#### Basic Sets commands 
+
+- **SADD** adds a new member to a set
+- **SREM** removes the specified member from the set
+- **SISMEMBER** test a string for set membership
+- **SINTER** returns the set members that hwo or more sets have in common 
+- **SCARD** returns the size of a set
+
+```
+Java
+
+long res1 = jedis.sadd("bikes:racing:france", "bike:1")
+System.out.println(res1) // >>>> 1 
+
+long res2 = jedis.sadd("bikes:racing:france", "bike:1")
+System.out.println(res2) // >>> 0 the value was not added
+
+long res3 = jedis.sadd("bikes:racing:france", "bike:2", "bike:3")
+System.out.println(res3) // >>>> 2 
+
+long res4 = jedis.sadd("bikes:racing:usa", "bike:1", "bike:4")
+Systemout.println(res4) // >>>>> 2
+
+```
+
+- Check wheter bike:1 or bike:2 are racing in the US
+```
+bool res5 = jedis.sismember("bikes:racing:usa", "bike:1")
+System.out.println(res5) // >>> true
+
+bool resNoMember = jedis.sismember("bikes:racing:usa", "bike1000")
+System.out.println(resNoMember) // >>>> false
+```
+- Which bikes are competing in both races ? 
+
+```
+jedis.sadd("bikes:racing:france", "bike1", "bike2", "bike3")
+jedis.sadd("bikes:racing:usa", "bike1", "bike4")
+
+Set<String> res7 = jedis.sinter("bikes:racing:france", "bikes:racing:usa")
+
+System.out.println(res7) // >>> [bike:1]
+```
+
+- How many bikes are racing in France ? 
+```
+jedis.sadd("bikes:racing:france", "bikes:1", "bike:2", "bike:3")
+long res8 = jedis.scard("bikes:racing:france")
+System.out.println(res8) // >>>> 3
+```
