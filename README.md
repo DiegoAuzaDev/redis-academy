@@ -186,3 +186,7 @@ jedis.sadd("bikes:racing:france", "bikes:1", "bike:2", "bike:3")
 long res8 = jedis.scard("bikes:racing:france")
 System.out.println(res8) // >>>> 3
 ```
+
+#### Basic Strings 
+
+![alt text](image.png)
