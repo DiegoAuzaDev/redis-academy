@@ -189,4 +189,9 @@ System.out.println(res8) // >>>> 3
 
 #### Basic Strings 
 
+The key is the first value after the command and the value of this key is hello there!
+
 ![alt text](image.png)
+
+
+
